@@ -559,8 +559,9 @@ fn build_shim_for_version(
         .unwrap();
     }
 
+    let gmake = std::env::var_os("GMAKE").unwrap_or("make");
     let rc = run_command(
-        Command::new("make")
+        Command::new(&gmake)
             .arg("clean")
             .arg(&format!("libpgx-cshim-{}.a", major_version))
             .env("PG_TARGET_VERSION", format!("{}", major_version))

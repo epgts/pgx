@@ -217,7 +217,8 @@ fn make_postgres(pg_config: &PgConfig, pgdir: &PathBuf) -> Result<(), std::io::E
         pg_config.major_version()?,
         pg_config.minor_version()?
     );
-    let mut command = std::process::Command::new("make");
+    let gmake = std::env::var_os("GMAKE").unwrap_or("make");
+    let mut command = std::process::Command::new(&gmake);
 
     command
         .arg("-j")
@@ -258,7 +259,8 @@ fn make_install_postgres(version: &PgConfig, pgdir: &PathBuf) -> Result<PgConfig
         version.minor_version()?,
         get_pg_installdir(pgdir).display()
     );
-    let mut command = std::process::Command::new("make");
+    let gmake = std::env::var_os("GMAKE").unwrap_or("make");
+    let mut command = std::process::Command::new(&gmake);
 
     command
         .arg("install")
